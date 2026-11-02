@@ -51,6 +51,14 @@
       --header-h: 4.25rem;
       --ease: cubic-bezier(.2, .8, .2, 1);
       --shadow: 0 24px 50px -22px rgba(0, 0, 0, .65);
+
+      /* Motion: every transition and entrance draws from this set */
+      --dur-fast: 200ms;   /* colour, border & background changes, presses */
+      --dur-base: 380ms;   /* hover lifts, icons, arrows                   */
+      --dur-slow: 800ms;   /* entrances & reveals                          */
+      --dur-hero: 1100ms;  /* hero headline and visual                     */
+      --ease-out: cubic-bezier(.16, 1, .3, 1); /* fast start, weightless settle: entrances */
+      --stagger: 90ms;     /* gap between steps of the hero sequence       */
     }
 
     /* =========================================================
@@ -130,7 +138,7 @@
       font-weight: 700;
       border-radius: var(--radius-sm);
       text-decoration: none;
-      transition: top .2s var(--ease);
+      transition: top var(--dur-fast) var(--ease);
     }
     .skip-link:focus { top: 1rem; }
 
@@ -185,7 +193,7 @@
       color: var(--saffron);
       background: linear-gradient(145deg, var(--forest-700), var(--forest-950));
       font-size: .95rem;
-      transition: transform .35s var(--ease), background-color .35s;
+      transition: transform var(--dur-base) var(--ease), background-color var(--dur-fast);
     }
     .brand:hover .brand-mark,
     .brand:focus-visible .brand-mark { transform: rotate(-8deg) scale(1.06); }
@@ -212,7 +220,7 @@
       color: var(--muted);
       text-decoration: none;
       white-space: nowrap;
-      transition: color .25s, background-color .25s;
+      transition: color var(--dur-fast), background-color var(--dur-fast);
     }
 
     .nav-num {
@@ -232,7 +240,7 @@
       background: var(--saffron);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform .35s var(--ease);
+      transition: transform var(--dur-base) var(--ease);
     }
 
     .nav-list a:hover,
@@ -338,9 +346,9 @@
         linear-gradient(180deg, rgba(30, 51, 36, .78), rgba(16, 27, 19, .92));
       box-shadow: inset 0 1px 0 rgba(233, 223, 198, .05);
       transition:
-        transform .4s var(--ease),
-        border-color .4s var(--ease),
-        box-shadow .4s var(--ease);
+        transform var(--dur-base) var(--ease),
+        border-color var(--dur-base) var(--ease),
+        box-shadow var(--dur-base) var(--ease);
     }
 
     .card::before {
@@ -355,7 +363,7 @@
         linear-gradient(var(--saffron), var(--saffron)) top left / 2px 18px no-repeat,
         linear-gradient(var(--saffron), var(--saffron)) bottom right / 18px 2px no-repeat,
         linear-gradient(var(--saffron), var(--saffron)) bottom right / 2px 18px no-repeat;
-      transition: opacity .4s var(--ease), inset .4s var(--ease);
+      transition: opacity var(--dur-base) var(--ease), inset var(--dur-base) var(--ease);
     }
 
     .card:hover,
@@ -376,7 +384,7 @@
       color: var(--saffron);
       background: rgba(243, 156, 51, .08);
       border: 1px solid rgba(243, 156, 51, .28);
-      transition: transform .4s var(--ease), background-color .4s;
+      transition: transform var(--dur-base) var(--ease), background-color var(--dur-fast);
     }
     .icon svg { width: 1.5rem; height: 1.5rem; }
     .card:hover .icon,
@@ -516,9 +524,9 @@
       font-size: .98rem;
       text-decoration: none;
       overflow: hidden;
-      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background-color .3s, color .3s, border-color .3s;
+      transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease), background-color var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
     }
-    .btn svg { width: 1.1rem; height: 1.1rem; transition: transform .3s var(--ease); }
+    .btn svg { width: 1.1rem; height: 1.1rem; transition: transform var(--dur-base) var(--ease); }
     .btn:hover svg, .btn:focus-visible svg { transform: translateX(4px); }
 
     .btn-primary {
@@ -544,6 +552,9 @@
       background: rgba(167, 180, 122, .1);
     }
 
+    /* Press: a quick dip that answers taps as well as clicks */
+    .btn:active { transform: scale(.97); transition-duration: var(--dur-fast); }
+
     .chips {
       display: flex;
       flex-wrap: wrap;
@@ -558,7 +569,7 @@
       font-size: .82rem;
       font-weight: 600;
       color: var(--muted);
-      transition: border-color .3s, color .3s;
+      transition: border-color var(--dur-fast), color var(--dur-fast);
     }
     .chips li:hover { border-color: var(--olive-300); color: var(--text); }
 
@@ -615,7 +626,7 @@
       box-shadow: var(--shadow), 0 0 0 1px rgba(0, 0, 0, .4);
       overflow: hidden;
       transform: rotate(-1.5deg);
-      transition: transform .5s var(--ease);
+      transition: transform var(--dur-base) var(--ease);
     }
     .terminal:hover { transform: rotate(0deg) translateY(-4px); }
 
@@ -750,7 +761,7 @@
       gap: 1rem;
       padding: .95rem 1.5rem;
       border-bottom: 1px solid var(--line);
-      transition: background-color .25s;
+      transition: background-color var(--dur-fast);
     }
     .dossier dl > div:last-child { border-bottom: 0; }
     .dossier dl > div:hover { background: rgba(167, 180, 122, .06); }
@@ -880,6 +891,7 @@
       align-content: start;
       min-height: 20rem;
       overflow: hidden;
+      overflow: clip; /* clips the same, but isn't a scroll container, so scroll reveals inside still track the page */
       padding-bottom: clamp(3.5rem, 6vw, 4.5rem);
     }
 
@@ -940,7 +952,7 @@
       background: var(--saffron);
       transform-origin: left;
       transform: scaleX(.35);
-      transition: transform .8s var(--ease);
+      transition: transform var(--dur-slow) var(--ease-out);
     }
     .hobby-card:hover .pages::after,
     .hobby-card:focus-within .pages::after { transform: scaleX(1); }
@@ -960,6 +972,7 @@
         repeating-linear-gradient(135deg, rgba(23, 34, 26, .035) 0 2px, transparent 2px 14px),
         radial-gradient(800px 400px at 100% 0%, rgba(243, 156, 51, .14), transparent 60%);
       overflow: hidden;
+      overflow: clip; /* see .hobby-card */
     }
     .aspiration .eyebrow { color: var(--saffron-ink); }
     .aspiration .section-intro { color: var(--ink-muted); }
@@ -1023,7 +1036,7 @@
       border: 1px solid rgba(23, 34, 26, .14);
       background: var(--sand-50);
       box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset;
-      transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
+      transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease), border-color var(--dur-fast);
     }
     .step:hover {
       transform: translateY(-6px);
@@ -1139,11 +1152,12 @@
       width: 1.25rem;
       height: 1.25rem;
       color: var(--muted);
-      transition: transform .35s var(--ease), color .35s;
+      transition: transform var(--dur-base) var(--ease), color var(--dur-fast);
     }
     .contact-link:hover .contact-arrow,
     .contact-link:focus-visible .contact-arrow { transform: translate(3px, -3px); color: var(--saffron); }
     .contact-link:focus-visible { outline-offset: 4px; border-radius: var(--radius); }
+    a.contact-link:active { transform: translateY(-2px) scale(.985); transition-duration: var(--dur-fast); }
 
     /* Not a link: cancel the shared card hover so it doesn't look clickable */
     .contact-static { cursor: default; }
@@ -1193,36 +1207,70 @@
       text-decoration: none;
       font-weight: 600;
       color: var(--text);
-      transition: border-color .3s, transform .3s var(--ease);
+      transition: border-color var(--dur-fast), transform var(--dur-base) var(--ease);
     }
-    .to-top svg { width: 1rem; height: 1rem; transition: transform .3s var(--ease); }
+    .to-top svg { width: 1rem; height: 1rem; transition: transform var(--dur-base) var(--ease); }
     .to-top:hover, .to-top:focus-visible { border-color: var(--saffron); }
     .to-top:hover svg, .to-top:focus-visible svg { transform: translateY(-3px); }
+    .to-top:active { transform: scale(.97); transition-duration: var(--dur-fast); }
 
     /* =========================================================
        14. MOTION: only for users who haven't asked for less.
        Everything is fully visible without these rules.
+
+       Tune it all from the motion tokens in section 1:
+       --dur-* (speed), --ease-out / --ease (feel), --stagger (pace).
+       Entrances animate the individual translate / scale / rotate
+       properties, so they never fight hover `transform` effects.
        ========================================================= */
     @media (prefers-reduced-motion: no-preference) {
       html { scroll-behavior: smooth; }
 
-      /* Staged hero entrance (use --i to set the order) */
+      /* ---- Hero entrance ---------------------------------------
+         One sequence in reading order: header, headline, supporting
+         text, visual, then the primary action. Each element's --i
+         (set inline) is its slot; --stagger is the gap between slots. */
+      .header-inner { animation: drop-in var(--dur-slow) var(--ease-out) both; }
+
+      /* The survey grid and glow light up behind the copy */
+      .hero::before { animation: fade-in calc(var(--dur-slow) * 2) var(--ease-out) both; }
+      .hero::after  { animation: fade-in calc(var(--dur-slow) * 2) var(--ease-out) .4s both; }
+
       .stage {
-        animation: stage-in .9s var(--ease) both;
-        animation-delay: calc(var(--i, 0) * 110ms + 80ms);
+        animation: rise-in var(--dur-slow) var(--ease-out) both;
+        animation-delay: calc(var(--i, 0) * var(--stagger) + 150ms);
       }
+
+      /* Headline lines rise out of a mask, a little slower than the rest */
       .hero-title .line {
-        animation: title-in 1s var(--ease) both;
-        animation-delay: calc(var(--i, 0) * 120ms + 120ms);
+        animation: title-in var(--dur-hero) var(--ease-out) both;
+        animation-delay: calc(var(--i, 0) * var(--stagger) + 150ms);
       }
-      .accent { animation: underline 1.1s var(--ease) .9s both; }
+      .accent {
+        animation: underline var(--dur-hero) var(--ease-out) both;
+        animation-delay: calc(var(--i, 0) * var(--stagger) + 650ms);
+      }
 
+      /* Visual: the radar opens out while the terminal settles into its
+         tilt. Both inherit their slot (--i) from .hero-visual. */
+      .radar {
+        animation: scale-in var(--dur-hero) var(--ease-out) both;
+        animation-delay: calc(var(--i, 0) * var(--stagger) + 150ms);
+      }
+      .terminal {
+        animation: settle var(--dur-hero) var(--ease-out) both;
+        animation-delay: calc(var(--i, 0) * var(--stagger) + 150ms);
+      }
       .terminal-body p {
-        animation: type-in .5s var(--ease) both;
-        animation-delay: calc(var(--i, 0) * 180ms + 700ms);
+        animation: type-in var(--dur-base) var(--ease-out) both;
+        animation-delay: calc(var(--i, 0) * var(--stagger) + 1000ms);
       }
-      .caret { animation: blink 1.1s steps(1) infinite; }
 
+      /* ---- Ambient details -------------------------------------
+         Kept few and quiet. Only the radar sweep, terminal caret and
+         values ticker loop continuously; the rest play a few times or
+         only while you hover. */
+      .caret { animation: blink 1.1s steps(1) infinite; }
       .radar::after { animation: sweep 7s linear infinite; }
 
       .status .dot::after,
@@ -1232,31 +1280,59 @@
         inset: 0;
         border-radius: 50%;
         background: inherit;
-        animation: ping 2.2s var(--ease) infinite;
       }
+      .status .dot::after { animation: ping 2.2s var(--ease-out) 1.2s 3; }
+      .tag .dot::after { animation: ping 2.2s var(--ease-out) infinite paused; }
+      .card:hover .tag .dot::after { animation-play-state: running; }
 
       .ticker-track { animation: ticker 42s linear infinite; }
       .ticker:hover .ticker-track { animation-play-state: paused; }
 
-      .waves { animation: wave 9s linear infinite; }
+      .waves { animation: wave 9s linear infinite paused; }
+      .hobby-card:hover .waves { animation-play-state: running; }
 
       /* Section arrival accent when reached through navigation */
-      section:target .rule { animation: rule-grow 1.1s var(--ease) both; }
+      section:target .rule { animation: rule-grow var(--dur-hero) var(--ease) both; }
 
-      /* Reveal-on-scroll with pure CSS (scroll-driven animations).
-         Browsers without support simply show content immediately. */
+      /* ---- Scroll reveals (pure CSS, scroll-driven) -------------
+         Progress follows the scroll position, eased with --ease-out so
+         each element arrives quickly and settles gently. Nothing is
+         pinned and scrolling is never taken over. Browsers without
+         support simply show content immediately. */
       @supports (animation-timeline: view()) {
         .reveal {
-          animation: reveal linear both;
+          animation: reveal var(--ease-out) both;
           animation-timeline: view();
-          animation-range: entry 0% cover 28%;
+          animation-range: entry 5% cover 30%;
         }
-        .reveal:nth-child(2) { animation-range: entry 6% cover 33%; }
-        .reveal:nth-child(3) { animation-range: entry 12% cover 38%; }
-        .reveal:nth-child(4) { animation-range: entry 18% cover 43%; }
+        .reveal:nth-child(2) { animation-range: entry 10% cover 34%; }
+        .reveal:nth-child(3) { animation-range: entry 15% cover 38%; }
+        .reveal:nth-child(4) { animation-range: entry 20% cover 42%; }
+
+        /* Eyebrow rule draws in just after its heading arrives */
+        .section-head .rule {
+          animation: draw var(--ease-out) both;
+          animation-timeline: view();
+          animation-range: cover 10% cover 30%;
+        }
+
+        /* Big hobby numbers drift a little slower than the page */
+        .hobby-num {
+          animation: drift linear both;
+          animation-timeline: view();
+        }
+
+        /* Highlighter sweeps across the key words of the aspiration */
+        .quote mark {
+          background-size: 0% 100%;
+          background-repeat: no-repeat;
+          animation: highlight var(--ease-out) both;
+          animation-timeline: view();
+          animation-range: cover 15% cover 45%;
+        }
 
         .path::before {
-          animation: route linear both;
+          animation: route var(--ease-out) both;
           animation-timeline: view();
           animation-range: entry 20% cover 50%;
           transform-origin: left;
@@ -1264,21 +1340,34 @@
       }
     }
 
-    @keyframes stage-in {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: none; }
+    @keyframes drop-in {
+      from { opacity: 0; translate: 0 -12px; }
+      to   { opacity: 1; translate: none; }
+    }
+    @keyframes fade-in { from { opacity: 0; } }
+    @keyframes rise-in {
+      from { opacity: 0; translate: 0 28px; }
+      to   { opacity: 1; translate: none; }
     }
     @keyframes title-in {
-      from { opacity: 0; transform: translateY(.35em); clip-path: inset(0 0 100% 0); }
-      to   { opacity: 1; transform: none; clip-path: inset(0 0 -10% 0); }
+      from { opacity: 0; translate: 0 .45em; clip-path: inset(0 0 100% 0); }
+      to   { opacity: 1; translate: none; clip-path: inset(-20% -5% -20% -5%); }
     }
     @keyframes underline {
       from { background-size: 0% 3px; }
       to   { background-size: 100% 3px; }
     }
+    @keyframes scale-in {
+      from { opacity: 0; scale: .8; }
+      to   { opacity: 1; scale: 1; }
+    }
+    @keyframes settle {
+      from { scale: .94; rotate: 3deg; }
+      to   { scale: 1; rotate: 0deg; }
+    }
     @keyframes type-in {
-      from { opacity: 0; transform: translateX(-8px); }
-      to   { opacity: 1; transform: none; }
+      from { opacity: 0; translate: -8px 0; }
+      to   { opacity: 1; translate: none; }
     }
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes sweep { to { transform: rotate(1turn); } }
@@ -1295,12 +1384,19 @@
       60%  { transform: scaleX(2.2); }
       100% { transform: scaleX(1); }
     }
-    /* Uses the individual `translate` property so it never fights
-       with hover `transform` effects on the same element. */
     @keyframes reveal {
-      from { opacity: 0; translate: 0 44px; }
+      from { opacity: 0; translate: 0 32px; }
       to   { opacity: 1; translate: none; }
     }
+    @keyframes draw {
+      from { scale: 0 1; }
+      to   { scale: 1 1; }
+    }
+    @keyframes drift {
+      from { translate: 0 1.5rem; }
+      to   { translate: 0 -1.5rem; }
+    }
+    @keyframes highlight { to { background-size: 100% 100%; } }
     @keyframes route {
       from { transform: scaleX(0); }
       to   { transform: scaleX(1); }
@@ -1372,16 +1468,16 @@
             <span class="line line-2" style="--i:2">Pillai</span>
           </h1>
 
-          <p class="hero-tagline stage" style="--i:3">
+          <p class="hero-tagline stage" style="--i:5">
             Future soldier. <span class="accent">Cyber defender</span> in training.
           </p>
 
-          <p class="hero-lede stage" style="--i:4">
+          <p class="hero-lede stage" style="--i:6">
             Discipline in body, precision in code. I'm building the skills, the fitness and the character
             to one day serve India, both on the ground and in cyberspace.
           </p>
 
-          <div class="actions stage" style="--i:5">
+          <div class="actions stage" style="--i:8">
             <a class="btn btn-primary" href="#aspiration">
               Read my aspiration
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -1389,7 +1485,7 @@
             <a class="btn btn-ghost" href="#contact">Get in touch</a>
           </div>
 
-          <ul class="chips stage" style="--i:6" role="list" aria-label="At a glance">
+          <ul class="chips stage" style="--i:9" role="list" aria-label="At a glance">
             <li>Python</li>
             <li>Linux</li>
             <li>Shotokan karate</li>
@@ -1397,13 +1493,13 @@
             <li>Reading</li>
           </ul>
 
-          <p class="hero-disclaimer stage" style="--i:7">
+          <p class="hero-disclaimer stage" style="--i:10">
             An aspiration, not an affiliation. I'm a student with no official connection to,
             or endorsement from, the Indian Army or the Indian Armed Forces.
           </p>
         </div>
 
-        <div class="hero-visual stage" style="--i:4">
+        <div class="hero-visual stage" style="--i:7">
           <div class="radar" aria-hidden="true"></div>
 
           <figure class="terminal" aria-label="Profile summary styled as a terminal session">
