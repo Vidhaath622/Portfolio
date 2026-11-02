@@ -1,0 +1,15 @@
+Name: Vidhaath Pillai
+
+Class: 1st Year
+
+University: NST-RU
+
+Hobbies: Swimming, Reading
+
+Skills: Python/Linux/Martial Arts
+
+Aspiration: I want to be a soldier in the indian army and I want to use my skills in Cyber Security to help the Indian Armed Forces.
+
+What I want?
+one index.html file which has html and css
+it should have the whole portfolio
